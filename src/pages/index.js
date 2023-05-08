@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import Balance from '@/components/Balance';
-import Tabs from '@/components/Tabs';
+import Tab from '@/components/Tab';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,7 +11,7 @@ export default function Home() {
         Expenses Note app
       </h1>
       <Balance />
-      <Tabs />
+      <Tab />
     </div>
   );
 }
