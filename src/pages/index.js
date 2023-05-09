@@ -1,8 +1,8 @@
-import { Inter } from 'next/font/google';
-import Balance from '@/components/Balance';
-import Tab from '@/components/Tab';
+import { Inter } from "next/font/google";
+import Balance from "@/components/Balance";
+import Tab from "@/components/Tab";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (

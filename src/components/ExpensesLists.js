@@ -23,7 +23,7 @@ export default function ExpensesLists() {
                 {expense.date}
               </Table.Cell>
               <Table.Cell>{expense.comment}</Table.Cell>
-              <Table.Cell>{expense.price}</Table.Cell>
+              <Table.Cell>{expense.amount}</Table.Cell>
               <Table.Cell>
                 <a
                   href="/tables"

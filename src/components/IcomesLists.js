@@ -23,7 +23,7 @@ export default function IncomesLists() {
                 {income.date}
               </Table.Cell>
               <Table.Cell>{income.comment}</Table.Cell>
-              <Table.Cell>{income.price}</Table.Cell>
+              <Table.Cell>{income.amount}</Table.Cell>
               <Table.Cell>
                 <a
                   href="/tables"
