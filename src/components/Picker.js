@@ -15,7 +15,8 @@ const options = {
     icons: "",
     text: "",
     disabledText: "bg-transparent",
-    input: "",
+    input:
+      "bg-transparent border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 block w-full rounded-md text-sm",
     inputIcon: "",
     selected: "",
   },
@@ -28,12 +29,8 @@ const options = {
   language: "fr",
 };
 
-export default function Picker() {
+export default function Picker({ handleChange }) {
   const [show, setShow] = useState(false);
-
-  const handleChange = (selectedDate) => {
-    console.log(selectedDate);
-  };
 
   const handleClose = (state) => {
     setShow(state);

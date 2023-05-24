@@ -1,41 +1,42 @@
-import { Table } from "flowbite-react";
-import { useState } from "react";
-import { data } from "../utils/data";
-
-export default function ExpensesLists() {
-  const [expenses, setExpenses] = useState(data);
-
+export default function ExpensesLists({ data }) {
   return (
-    <div className="mt-8">
-      <Table striped={true}>
-        <Table.Head>
-          <Table.HeadCell>Date</Table.HeadCell>
-          <Table.HeadCell>Commentaires</Table.HeadCell>
-          <Table.HeadCell>Montant</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {expenses.map((expense) => (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {expense.date}
-              </Table.Cell>
-              <Table.Cell>{expense.comment}</Table.Cell>
-              <Table.Cell>{expense.amount}</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="/tables"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Edit
-                </a>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </div>
+    <>
+      <div className="mt-8">
+        <table className="w-full dark:border-gray-700">
+          <thead className="bg-slate-100 text-left text-sm">
+            <tr>
+              <th className="px-2 py-1.5 font-semibold">Date</th>
+              <th className="px-2 py-1.5 font-semibold">Commentaires</th>
+              <th className="px-2 py-1.5 font-semibold text-right">Montant</th>
+              <th className="pl-5 pr-2 py-1.5 font-semibold">
+                <span className="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y">
+            {data.map((expense) => (
+              <tr
+                key={expense.id}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800 odd:bg-white even:bg-slate-50 text-sm"
+              >
+                <td className="text-gray-500 px-2 py-3">{expense.date}</td>
+                <td className="text-gray-500 px-2 py-3">{expense.comment}</td>
+                <td className="text-gray-500 px-2 py-3 text-right">
+                  {expense.amount}
+                </td>
+                <td className="pl-5 pr-2 text-right">
+                  <a
+                    href="/tables"
+                    className="font-semibold text-blue-600 hover:underline dark:text-blue-500"
+                  >
+                    Edit
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }

@@ -1,48 +1,118 @@
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 import { Inter } from "next/font/google";
-import { Modal, Label, TextInput, Textarea } from "flowbite-react";
-import Button from "./Button";
 import Picker from "./Picker";
-
 const inter = Inter({ subsets: ["latin"] });
 
-export default function ModalCreate({ showModal, onClose }) {
+export default function ModalCreate({
+  data,
+  addDate,
+  addComment,
+  addAmount,
+  addExpense,
+  showModal,
+  onClose,
+}) {
   return (
-    <Modal
-      show={showModal}
-      size="md"
-      popup={true}
-      onClose={onClose}
-      className={inter.className}
-    >
-      <Modal.Header />
-      <Modal.Body>
-        <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
-          <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-            Ajouter votre dépense
-          </h3>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="date" value="Date:" />
+    <>
+      <Transition appear show={showModal} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={onClose}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel
+                  className={`${inter.className} w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all`}
+                >
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Ajouter dépense
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <form className="flex flex-col space-y-4">
+                      <div className="flex flex-col space-y-2">
+                        <label
+                          htmlFor="date"
+                          className="font-medium text-sm text-gray-900"
+                        >
+                          Date:
+                        </label>
+                        <Picker handleChange={addDate} />
+                      </div>
+
+                      <div className="flex flex-col space-y-2">
+                        <label
+                          htmlFor="comment"
+                          className="font-medium text-sm text-gray-900"
+                        >
+                          Commentaire:
+                        </label>
+                        <textarea
+                          id="comment"
+                          name="comment"
+                          className="border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:ring-0 block w-full rounded-md text-sm"
+                          onChange={addComment}
+                          placeholder="Placez un commentaire..."
+                          value={data.comment}
+                        ></textarea>
+                      </div>
+
+                      <div className="flex flex-col space-y-2">
+                        <label
+                          htmlFor="amount"
+                          className="font-medium text-sm text-gray-900"
+                        >
+                          Montant:
+                        </label>
+                        <input
+                          type="number"
+                          className="border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:ring-0 block w-full rounded-md text-sm"
+                          onChange={addAmount}
+                          value={data.amount}
+                        />
+                      </div>
+
+                      <div className="mt-8 text-right">
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={() => {
+                            addExpense();
+                            onClose();
+                          }}
+                        >
+                          Ajouter
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
             </div>
-            <Picker />
           </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="comment" value="Commentaire:" />
-            </div>
-            <Textarea id="comment" required={true}></Textarea>
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="amount" value="Montant:" />
-            </div>
-            <TextInput id="amount" type="number" required={true} />
-          </div>
-          <div className="w-full text-right">
-            <Button label="Ajouter" />
-          </div>
-        </div>
-      </Modal.Body>
-    </Modal>
+        </Dialog>
+      </Transition>
+    </>
   );
 }

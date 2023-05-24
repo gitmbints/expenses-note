@@ -3,10 +3,40 @@ import Button from "./Button";
 import ExpensesLists from "./ExpensesLists";
 import Filter from "./Filter";
 import ModalCreate from "./ModalCreate";
-import { createPortal } from "react-dom";
+import { data } from "@/utils/data";
+import dayjs from "dayjs";
 
 export default function Expense() {
   const [showModalCreate, setShowModalCreate] = useState(false);
+  const [expenses, setExpenses] = useState(data);
+  const [expense, setExpense] = useState({
+    id: null,
+    date: null,
+    comment: "",
+    amount: 0,
+  });
+
+  const getRandomNumber = () => {
+    return Math.floor(Math.random() * (1000000 - 10 + 1)) + 10;
+  };
+
+  const handleChangeDate = (selectedDate) => {
+    const formatedDate = dayjs(selectedDate).format("DD/MM/YYYY");
+    setExpense({ ...expense, date: formatedDate });
+  };
+
+  const handleChangeComment = (e) => {
+    setExpense({ ...expense, comment: e.target.value });
+  };
+
+  const handleChangeAmount = (e) => {
+    setExpense({ ...expense, amount: e.target.value });
+  };
+
+  const handleAddExpense = () => {
+    setExpenses([...expenses, { ...expense, id: getRandomNumber() }]);
+    setExpense({ id: null, date: null, comment: "", amount: 0 });
+  };
 
   const openModal = () => {
     setShowModalCreate(true);
@@ -28,13 +58,19 @@ export default function Expense() {
         <Button label="Ajouter" handleClick={openModal} />
       </div>
 
-      <ExpensesLists />
+      <ExpensesLists data={expenses} />
 
-      {showModalCreate &&
-        createPortal(
-          <ModalCreate showModal={showModalCreate} onClose={closeModal} />,
-          document.body
-        )}
+      {showModalCreate && (
+        <ModalCreate
+          data={expense}
+          addDate={handleChangeDate}
+          addComment={handleChangeComment}
+          addAmount={handleChangeAmount}
+          addExpense={handleAddExpense}
+          showModal={showModalCreate}
+          onClose={closeModal}
+        />
+      )}
     </>
   );
 }

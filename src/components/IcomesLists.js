@@ -3,7 +3,7 @@ import { useState } from "react";
 import { data } from "../utils/data";
 
 export default function IncomesLists() {
-  const [iconmes, setIncomes] = useState(data);
+  const [incomes, setIncomes] = useState(data);
 
   return (
     <div className="mt-8">
@@ -17,8 +17,11 @@ export default function IncomesLists() {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {iconmes.map((income) => (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+          {incomes.map((income) => (
+            <Table.Row
+              key={income.id}
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                 {income.date}
               </Table.Cell>
