@@ -5,6 +5,7 @@ import Filter from "./Filter";
 import ModalCreate from "./ModalCreate";
 import { data } from "@/utils/data";
 import dayjs from "dayjs";
+import { createPortal } from "react-dom";
 
 export default function Expense() {
   const [showModalCreate, setShowModalCreate] = useState(false);
@@ -15,6 +16,7 @@ export default function Expense() {
     comment: "",
     amount: 0,
   });
+  const [isEdit, setIsEdit] = useState(false);
 
   const getRandomNumber = () => {
     return Math.floor(Math.random() * (1000000 - 10 + 1)) + 10;
@@ -38,7 +40,32 @@ export default function Expense() {
     setExpense({ id: null, date: null, comment: "", amount: 0 });
   };
 
+  const handleEditExpense = (nextExpense) => {
+    setExpenses(
+      expenses.map((expense) => {
+        if (expense.id === nextExpense.id) {
+          return nextExpense;
+        } else {
+          return expense;
+        }
+      })
+    );
+    setExpense({ id: null, date: null, comment: "", amount: 0 });
+  };
+
+  const handleDeleteExpense = (expenseId) => {
+    setExpenses(expenses.filter((expense) => expense.id !== expenseId));
+  };
+
+  const openModalEdit = (expenseId) => {
+    setIsEdit(true);
+    setShowModalCreate(true);
+    const toEditExpense = expenses.find((expense) => expense.id === expenseId);
+    setExpense(toEditExpense);
+  };
+
   const openModal = () => {
+    setIsEdit(false);
     setShowModalCreate(true);
   };
 
@@ -58,19 +85,27 @@ export default function Expense() {
         <Button label="Ajouter" handleClick={openModal} />
       </div>
 
-      <ExpensesLists data={expenses} />
+      <ExpensesLists
+        data={expenses}
+        handleOpenModal={openModalEdit}
+        deleteExpense={handleDeleteExpense}
+      />
 
-      {showModalCreate && (
-        <ModalCreate
-          data={expense}
-          addDate={handleChangeDate}
-          addComment={handleChangeComment}
-          addAmount={handleChangeAmount}
-          addExpense={handleAddExpense}
-          showModal={showModalCreate}
-          onClose={closeModal}
-        />
-      )}
+      {showModalCreate &&
+        createPortal(
+          <ModalCreate
+            data={expense}
+            addDate={handleChangeDate}
+            addComment={handleChangeComment}
+            addAmount={handleChangeAmount}
+            addExpense={handleAddExpense}
+            showModal={showModalCreate}
+            onClose={closeModal}
+            isEdit={isEdit}
+            editExpense={handleEditExpense}
+          />,
+          document.body
+        )}
     </>
   );
 }

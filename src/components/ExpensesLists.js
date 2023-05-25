@@ -1,4 +1,8 @@
-export default function ExpensesLists({ data }) {
+export default function ExpensesLists({
+  data,
+  handleOpenModal,
+  deleteExpense,
+}) {
   return (
     <>
       <div className="mt-8">
@@ -10,6 +14,9 @@ export default function ExpensesLists({ data }) {
               <th className="px-2 py-1.5 font-semibold text-right">Montant</th>
               <th className="pl-5 pr-2 py-1.5 font-semibold">
                 <span className="sr-only">Edit</span>
+              </th>
+              <th className="pl-5 pr-2 py-1.5 font-semibold">
+                <span className="sr-only">Suppr</span>
               </th>
             </tr>
           </thead>
@@ -25,12 +32,20 @@ export default function ExpensesLists({ data }) {
                   {expense.amount}
                 </td>
                 <td className="pl-5 pr-2 text-right">
-                  <a
-                    href="/tables"
-                    className="font-semibold text-blue-600 hover:underline dark:text-blue-500"
+                  <button
+                    className="border-none bg-transparent font-semibold text-blue-600 hover:underline dark:text-blue-500"
+                    onClick={() => handleOpenModal(expense.id)}
                   >
                     Edit
-                  </a>
+                  </button>
+                </td>
+                <td className="px-2 text-right">
+                  <button
+                    className="border-none bg-transparent font-semibold text-blue-600 hover:underline dark:text-blue-500"
+                    onClick={() => deleteExpense(expense.id)}
+                  >
+                    Suppr
+                  </button>
                 </td>
               </tr>
             ))}

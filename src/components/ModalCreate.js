@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Inter } from "next/font/google";
 import Picker from "./Picker";
 const inter = Inter({ subsets: ["latin"] });
@@ -12,6 +12,8 @@ export default function ModalCreate({
   addExpense,
   showModal,
   onClose,
+  isEdit,
+  editExpense,
 }) {
   return (
     <>
@@ -45,9 +47,9 @@ export default function ModalCreate({
                 >
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-center text-lg font-medium leading-6 text-gray-900"
                   >
-                    Ajouter dépense
+                    {isEdit ? "Editer dépense" : "Ajouter dépense"}
                   </Dialog.Title>
                   <div className="mt-2">
                     <form className="flex flex-col space-y-4">
@@ -58,7 +60,7 @@ export default function ModalCreate({
                         >
                           Date:
                         </label>
-                        <Picker handleChange={addDate} />
+                        <Picker handleChange={addDate} defaultIsShow={true} />
                       </div>
 
                       <div className="flex flex-col space-y-2">
@@ -94,16 +96,29 @@ export default function ModalCreate({
                       </div>
 
                       <div className="mt-8 text-right">
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                          onClick={() => {
-                            addExpense();
-                            onClose();
-                          }}
-                        >
-                          Ajouter
-                        </button>
+                        {isEdit ? (
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            onClick={() => {
+                              editExpense(data);
+                              onClose();
+                            }}
+                          >
+                            Modifier
+                          </button>
+                        ) : (
+                          <button
+                            type="submit"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            onClick={() => {
+                              addExpense();
+                              onClose();
+                            }}
+                          >
+                            Ajouter
+                          </button>
+                        )}
                       </div>
                     </form>
                   </div>

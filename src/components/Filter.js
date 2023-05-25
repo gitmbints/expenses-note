@@ -1,5 +1,5 @@
 import Picker from "./Picker";
 
 export default function Filter() {
-  return <Picker />;
+  return <Picker defaultIsShow={false} />;
 }

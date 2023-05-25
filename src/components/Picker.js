@@ -29,11 +29,11 @@ const options = {
   language: "fr",
 };
 
-export default function Picker({ handleChange }) {
-  const [show, setShow] = useState(false);
+export default function Picker({ handleChange, defaultIsShow }) {
+  const [isShow, setIsShow] = useState(defaultIsShow);
 
   const handleClose = (state) => {
-    setShow(state);
+    setIsShow(state);
   };
 
   return (
@@ -41,7 +41,7 @@ export default function Picker({ handleChange }) {
       <Datepicker
         options={options}
         onChange={handleChange}
-        show={show}
+        show={isShow}
         setShow={handleClose}
         classNames="relative"
       />
