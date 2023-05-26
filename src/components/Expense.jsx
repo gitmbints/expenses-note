@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Button from "./Button";
-import ExpensesLists from "./ExpensesLists";
-import Filter from "./Filter";
-import ModalCreate from "./ModalCreate";
+import Button from "./Button.jsx";
+import ExpensesLists from "./ExpensesLists.jsx";
+import Filter from "./Filter.jsx";
+import ModalCreate from "./ModalCreate.jsx";
 import { data } from "@/utils/data";
 import dayjs from "dayjs";
 import { createPortal } from "react-dom";
@@ -27,17 +27,13 @@ export default function Expense() {
     setExpense({ ...expense, date: formatedDate });
   };
 
-  const handleChangeComment = (e) => {
-    setExpense({ ...expense, comment: e.target.value });
-  };
-
-  const handleChangeAmount = (e) => {
-    setExpense({ ...expense, amount: e.target.value });
+  const handleChange = (event) => {
+    setExpense({ ...expense, [event.target.name]: event.target.value });
   };
 
   const handleAddExpense = () => {
     setExpenses([...expenses, { ...expense, id: getRandomNumber() }]);
-    setExpense({ id: null, date: null, comment: "", amount: 0 });
+    resetInput();
   };
 
   const handleEditExpense = (nextExpense) => {
@@ -50,6 +46,10 @@ export default function Expense() {
         }
       })
     );
+    resetInput();
+  };
+
+  const resetInput = () => {
     setExpense({ id: null, date: null, comment: "", amount: 0 });
   };
 
@@ -82,7 +82,7 @@ export default function Expense() {
             <Filter />
           </div>
         </div>
-        <Button label="Ajouter" handleClick={openModal} />
+        <Button handleClick={openModal}>Ajouter</Button>
       </div>
 
       <ExpensesLists
@@ -95,9 +95,8 @@ export default function Expense() {
         createPortal(
           <ModalCreate
             data={expense}
-            addDate={handleChangeDate}
-            addComment={handleChangeComment}
-            addAmount={handleChangeAmount}
+            handleAddDate={handleChangeDate}
+            handleChange={handleChange}
             addExpense={handleAddExpense}
             showModal={showModalCreate}
             onClose={closeModal}

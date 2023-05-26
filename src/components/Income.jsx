@@ -1,6 +1,6 @@
-import Button from "./Button";
-import Filter from "./Filter";
-import IncomesLists from "./IcomesLists";
+import Button from "./Button.jsx";
+import Filter from "./Filter.jsx";
+import IncomesLists from "./IcomesLists.jsx";
 
 export default function Income() {
   return (
@@ -12,7 +12,7 @@ export default function Income() {
             <Filter />
           </div>
         </div>
-        <Button label="Ajouter" />
+        <Button>Ajouter</Button>
       </div>
       <IncomesLists />
     </>

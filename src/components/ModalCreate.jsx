@@ -1,14 +1,14 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { Inter } from "next/font/google";
-import Picker from "./Picker";
+import Picker from "./Picker.jsx";
+import Button from "./Button";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function ModalCreate({
   data,
-  addDate,
-  addComment,
-  addAmount,
+  handleAddDate,
+  handleChange,
   addExpense,
   showModal,
   onClose,
@@ -60,7 +60,10 @@ export default function ModalCreate({
                         >
                           Date:
                         </label>
-                        <Picker handleChange={addDate} defaultIsShow={true} />
+                        <Picker
+                          handleChange={handleAddDate}
+                          defaultIsShow={true}
+                        />
                       </div>
 
                       <div className="flex flex-col space-y-2">
@@ -74,7 +77,7 @@ export default function ModalCreate({
                           id="comment"
                           name="comment"
                           className="border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:ring-0 block w-full rounded-md text-sm"
-                          onChange={addComment}
+                          onChange={handleChange}
                           placeholder="Placez un commentaire..."
                           value={data.comment}
                         ></textarea>
@@ -88,36 +91,34 @@ export default function ModalCreate({
                           Montant:
                         </label>
                         <input
+                          id="amount"
                           type="number"
+                          name="amount"
                           className="border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:ring-0 block w-full rounded-md text-sm"
-                          onChange={addAmount}
+                          onChange={handleChange}
                           value={data.amount}
                         />
                       </div>
 
                       <div className="mt-8 text-right">
                         {isEdit ? (
-                          <button
-                            type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                            onClick={() => {
+                          <Button
+                            handleClick={() => {
                               editExpense(data);
                               onClose();
                             }}
                           >
                             Modifier
-                          </button>
+                          </Button>
                         ) : (
-                          <button
-                            type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                            onClick={() => {
+                          <Button
+                            handleClick={() => {
                               addExpense();
                               onClose();
                             }}
                           >
                             Ajouter
-                          </button>
+                          </Button>
                         )}
                       </div>
                     </form>

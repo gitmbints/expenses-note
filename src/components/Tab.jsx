@@ -1,5 +1,5 @@
-import Expense from "./Expense";
-import Income from "./Income";
+import Expense from "./Expense.jsx";
+import Income from "./Income.jsx";
 import { Tab } from "@headlessui/react";
 
 function classNames(...classes) {

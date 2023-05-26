@@ -2,7 +2,7 @@ import Datepicker from "tailwind-datepicker-react";
 import { useState } from "react";
 
 const options = {
-  title: "Filtre",
+  title: "Date",
   autoHide: true,
   todayBtn: false,
   clearBtn: true,
