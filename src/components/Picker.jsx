@@ -29,8 +29,8 @@ const options = {
   language: "fr",
 };
 
-export default function Picker({ handleChange, defaultIsShow }) {
-  const [isShow, setIsShow] = useState(defaultIsShow);
+export default function Picker({ handleChange }) {
+  const [isShow, setIsShow] = useState(false);
 
   const handleClose = (state) => {
     setIsShow(state);

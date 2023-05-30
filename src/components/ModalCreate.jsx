@@ -60,10 +60,7 @@ export default function ModalCreate({
                         >
                           Date:
                         </label>
-                        <Picker
-                          handleChange={handleAddDate}
-                          defaultIsShow={true}
-                        />
+                        <Picker handleChange={handleAddDate} />
                       </div>
 
                       <div className="flex flex-col space-y-2">
