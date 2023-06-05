@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import Button from "./Button.jsx";
 import ExpensesLists from "./ExpensesLists.jsx";
 import Filter from "./Filter.jsx";
@@ -6,10 +6,11 @@ import ModalCreate from "./ModalCreate.jsx";
 import { data } from "@/utils/data";
 import dayjs from "dayjs";
 import { createPortal } from "react-dom";
+import expensesReducer from "@/reducers/expensesReducer.js";
 
 export default function Expense() {
   const [showModalCreate, setShowModalCreate] = useState(false);
-  const [expenses, setExpenses] = useState(data);
+  const [expenses, dispatch] = useReducer(expensesReducer, data);
   const [expense, setExpense] = useState({
     id: null,
     date: null,
@@ -32,20 +33,18 @@ export default function Expense() {
   };
 
   const handleAddExpense = () => {
-    setExpenses([...expenses, { ...expense, id: getRandomNumber() }]);
+    dispatch({
+      type: "expense-added",
+      expense: { ...expense, id: getRandomNumber() },
+    });
     resetInput();
   };
 
   const handleEditExpense = (nextExpense) => {
-    setExpenses(
-      expenses.map((expense) => {
-        if (expense.id === nextExpense.id) {
-          return nextExpense;
-        } else {
-          return expense;
-        }
-      })
-    );
+    dispatch({
+      type: "expense-edited",
+      expense: nextExpense,
+    });
     resetInput();
   };
 
@@ -54,7 +53,10 @@ export default function Expense() {
   };
 
   const handleDeleteExpense = (expenseId) => {
-    setExpenses(expenses.filter((expense) => expense.id !== expenseId));
+    dispatch({
+      type: "expense-deleted",
+      id: expenseId,
+    });
   };
 
   const openModalEdit = (expenseId) => {
