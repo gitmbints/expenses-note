@@ -41,16 +41,10 @@ export default function Example() {
           </Tab>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel
-            key="Expense"
-            className={classNames("rounded-xl bg-white p-3")}
-          >
+          <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
             <Expense />
           </Tab.Panel>
-          <Tab.Panel
-            key="Income"
-            className={classNames("rounded-xl bg-white p-3")}
-          >
+          <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
             <Income />
           </Tab.Panel>
         </Tab.Panels>
