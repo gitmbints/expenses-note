@@ -1,3 +1,4 @@
+import { ExpensesProvider } from "@/store/context/ExpensesContext.js";
 import Expense from "./Expense.jsx";
 import Income from "./Income.jsx";
 import { Tab } from "@headlessui/react";
@@ -40,10 +41,13 @@ export default function Example() {
             Revenues
           </Tab>
         </Tab.List>
+
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
-            <Expense />
-          </Tab.Panel>
+          <ExpensesProvider>
+            <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
+              <Expense />
+            </Tab.Panel>
+          </ExpensesProvider>
           <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
             <Income />
           </Tab.Panel>

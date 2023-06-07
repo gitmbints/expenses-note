@@ -1,8 +1,28 @@
-export default function ExpensesLists({
-  data,
-  handleOpenModal,
-  deleteExpense,
-}) {
+import {
+  ExpensesContext,
+  ExpensesDispatchContext,
+} from "@/store/context/ExpensesContext";
+import { useContext, useState } from "react";
+import { createPortal } from "react-dom";
+import ModalEdit from "./ModalEdit";
+
+export default function ExpensesLists() {
+  const expenses = useContext(ExpensesContext);
+  const dispatch = useContext(ExpensesDispatchContext);
+
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [expenseToEdit, setExpenseToEdit] = useState({});
+
+  const openModal = (expenseId) => {
+    setShowModalEdit(true);
+    const expense = expenses.find((expense) => expense.id === expenseId);
+    setExpenseToEdit(expense);
+  };
+
+  const closeModal = () => {
+    setShowModalEdit(false);
+  };
+
   return (
     <>
       <div className="mt-8">
@@ -21,7 +41,7 @@ export default function ExpensesLists({
             </tr>
           </thead>
           <tbody className="divide-y">
-            {data.map((expense) => (
+            {expenses.map((expense) => (
               <tr
                 key={expense.id}
                 className="bg-white dark:border-gray-700 dark:bg-gray-800 odd:bg-white even:bg-slate-50 text-sm"
@@ -34,7 +54,7 @@ export default function ExpensesLists({
                 <td className="pl-5 pr-2 text-right">
                   <button
                     className="border-none bg-transparent font-semibold text-blue-600 hover:underline dark:text-blue-500"
-                    onClick={() => handleOpenModal(expense.id)}
+                    onClick={() => openModal(expense.id)}
                   >
                     Edit
                   </button>
@@ -42,7 +62,12 @@ export default function ExpensesLists({
                 <td className="px-2 text-right">
                   <button
                     className="border-none bg-transparent font-semibold text-blue-600 hover:underline dark:text-blue-500"
-                    onClick={() => deleteExpense(expense.id)}
+                    onClick={() =>
+                      dispatch({
+                        type: "expense-deleted",
+                        id: expense.id,
+                      })
+                    }
                   >
                     Suppr
                   </button>
@@ -52,6 +77,16 @@ export default function ExpensesLists({
           </tbody>
         </table>
       </div>
+
+      {showModalEdit &&
+        createPortal(
+          <ModalEdit
+            showModal={showModalEdit}
+            onClose={closeModal}
+            expenseToEdit={expenseToEdit}
+          />,
+          document.body
+        )}
     </>
   );
 }

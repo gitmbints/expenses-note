@@ -7,15 +7,14 @@ import { ExpensesDispatchContext } from "@/store/context/ExpensesContext.js";
 const inter = Inter({ subsets: ["latin"] });
 import dayjs from "dayjs";
 
-let nextExpenseId = 8;
-
-export default function ModalCreate({ showModal, onClose }) {
+export default function ModalEdit({ showModal, onClose, expenseToEdit }) {
   const [expense, setExpense] = useState({
-    id: "",
-    date: "",
-    comment: "",
-    amount: 0,
+    id: expenseToEdit.id,
+    date: expenseToEdit.date,
+    comment: expenseToEdit.comment,
+    amount: expenseToEdit.amount,
   });
+
   const dispatch = useContext(ExpensesDispatchContext);
 
   const handleChangeDate = (selectedDate) => {
@@ -32,10 +31,10 @@ export default function ModalCreate({ showModal, onClose }) {
     onClose();
   };
 
-  const handleAddExpense = () => {
+  const handleEditExpense = (nextExpense) => {
     dispatch({
-      type: "expense-added",
-      expense: { ...expense, id: nextExpenseId++ },
+      type: "expense-edited",
+      expense: nextExpense,
     });
     resetInput();
   };
@@ -74,7 +73,7 @@ export default function ModalCreate({ showModal, onClose }) {
                     as="h3"
                     className="text-center text-lg font-medium leading-6 text-gray-900"
                   >
-                    Ajouter dépense
+                    Editer dépense
                   </Dialog.Title>
                   <div className="mt-2">
                     <form className="flex flex-col space-y-4">
@@ -123,7 +122,13 @@ export default function ModalCreate({ showModal, onClose }) {
                       </div>
 
                       <div className="mt-8 text-right">
-                        <Button handleClick={handleAddExpense}>Ajouter</Button>
+                        <Button
+                          handleClick={() => {
+                            handleEditExpense(expense);
+                          }}
+                        >
+                          Modifier
+                        </Button>
                       </div>
                     </form>
                   </div>

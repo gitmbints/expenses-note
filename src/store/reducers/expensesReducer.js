@@ -1,4 +1,4 @@
-export default function expensesReducer(expenses, action) {
+export function expensesReducer(expenses, action) {
   switch (action.type) {
     case "expense-added": {
       return [...expenses, action.expense];
