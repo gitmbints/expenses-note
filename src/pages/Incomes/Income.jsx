@@ -1,11 +1,11 @@
-import { useState } from "react";
-import Button from "./Button.jsx";
-import ExpensesLists from "./ExpensesLists.jsx";
-import Filter from "./Filter.jsx";
-import ModalCreate from "./ModalCreate.jsx";
+import Button from "../../components/Button.jsx";
+import Filter from "../../components/Filter.jsx";
+import IncomesLists from "./IcomesLists.jsx";
 import { createPortal } from "react-dom";
+import ModalCreate from "./ModalCreate.jsx";
+import { useState } from "react";
 
-export default function Expense() {
+export default function Income() {
   const [showModalCreate, setShowModalCreate] = useState(false);
 
   const openModal = () => {
@@ -15,12 +15,11 @@ export default function Expense() {
   const closeModal = () => {
     setShowModalCreate(false);
   };
-
   return (
     <>
       <div className="flex items-end justify-between">
         <div className="flex flex-col">
-          <label>Dépenses du:</label>
+          <h1>Revenus du:</h1>
           <div className="mt-2 arh-flex arh-justify-center">
             <Filter />
           </div>
@@ -28,7 +27,7 @@ export default function Expense() {
         <Button handleClick={openModal}>Ajouter</Button>
       </div>
 
-      <ExpensesLists />
+      <IncomesLists />
 
       {showModalCreate &&
         createPortal(

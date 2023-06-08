@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext, useState } from "react";
 import { Inter } from "next/font/google";
-import Picker from "./Picker.jsx";
-import Button from "./Button";
+import Picker from "../../components/Picker.jsx";
+import Button from "../../components/Button.jsx";
 import { ExpensesDispatchContext } from "@/store/context/ExpensesContext.js";
 const inter = Inter({ subsets: ["latin"] });
 import dayjs from "dayjs";

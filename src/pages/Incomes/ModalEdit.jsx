@@ -1,41 +1,40 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useContext, useState } from "react";
 import { Inter } from "next/font/google";
-import Picker from "./Picker.jsx";
-import Button from "./Button";
-import { ExpensesDispatchContext } from "@/store/context/ExpensesContext.js";
+import Picker from "../../components/Picker.jsx";
+import Button from "../../components/Button.jsx";
+import { IncomesDispatchContext } from "@/store/context/IncomesContext.js";
 const inter = Inter({ subsets: ["latin"] });
 import dayjs from "dayjs";
 
-let nextExpenseId = 8;
-
-export default function ModalCreate({ showModal, onClose }) {
-  const [expense, setExpense] = useState({
-    id: "",
-    date: "",
-    comment: "",
-    amount: 0,
+export default function ModalEdit({ showModal, onClose, incomeToEdit }) {
+  const [income, setIncome] = useState({
+    id: incomeToEdit.id,
+    date: incomeToEdit.date,
+    comment: incomeToEdit.comment,
+    amount: incomeToEdit.amount,
   });
-  const dispatch = useContext(ExpensesDispatchContext);
+
+  const dispatch = useContext(IncomesDispatchContext);
 
   const handleChangeDate = (selectedDate) => {
     const formatedDate = dayjs(selectedDate).format("DD/MM/YYYY");
-    setExpense({ ...expense, date: formatedDate });
+    setIncome({ ...income, date: formatedDate });
   };
 
   const handleChange = (event) => {
-    setExpense({ ...expense, [event.target.name]: event.target.value });
+    setIncome({ ...income, [event.target.name]: event.target.value });
   };
 
   const resetInput = () => {
-    setExpense({ ...expense, date: "", comment: "", amount: 0 });
+    setIncome({ ...income, date: "", comment: "", amount: 0 });
     onClose();
   };
 
-  const handleAddExpense = () => {
+  const handleEditIncome = (nextIncome) => {
     dispatch({
-      type: "expense-added",
-      expense: { ...expense, id: nextExpenseId++ },
+      type: "income-edited",
+      income: nextIncome,
     });
     resetInput();
   };
@@ -74,7 +73,7 @@ export default function ModalCreate({ showModal, onClose }) {
                     as="h3"
                     className="text-center text-lg font-medium leading-6 text-gray-900"
                   >
-                    Ajouter dépense
+                    Editer revenue
                   </Dialog.Title>
                   <div className="mt-2">
                     <form className="flex flex-col space-y-4">
@@ -101,7 +100,7 @@ export default function ModalCreate({ showModal, onClose }) {
                           className="border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:ring-0 block w-full rounded-md text-sm"
                           onChange={handleChange}
                           placeholder="Placez un commentaire..."
-                          value={expense.comment}
+                          value={income.comment}
                         ></textarea>
                       </div>
 
@@ -118,12 +117,18 @@ export default function ModalCreate({ showModal, onClose }) {
                           name="amount"
                           className="border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-slate-300 focus:ring-0 block w-full rounded-md text-sm"
                           onChange={handleChange}
-                          value={expense.amount}
+                          value={income.amount}
                         />
                       </div>
 
                       <div className="mt-8 text-right">
-                        <Button handleClick={handleAddExpense}>Ajouter</Button>
+                        <Button
+                          handleClick={() => {
+                            handleEditIncome(income);
+                          }}
+                        >
+                          Modifier
+                        </Button>
                       </div>
                     </form>
                   </div>

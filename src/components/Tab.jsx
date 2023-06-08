@@ -1,7 +1,8 @@
 import { ExpensesProvider } from "@/store/context/ExpensesContext.js";
-import Expense from "./Expense.jsx";
-import Income from "./Income.jsx";
+import Expense from "../pages/Expenses/Expense.jsx";
+import Income from "../pages/Incomes/Income.jsx";
 import { Tab } from "@headlessui/react";
+import { IncomesProvider } from "@/store/context/IncomesContext.js";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -48,9 +49,12 @@ export default function Example() {
               <Expense />
             </Tab.Panel>
           </ExpensesProvider>
-          <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
-            <Income />
-          </Tab.Panel>
+
+          <IncomesProvider>
+            <Tab.Panel className={classNames("rounded-xl bg-white p-3")}>
+              <Income />
+            </Tab.Panel>
+          </IncomesProvider>
         </Tab.Panels>
       </Tab.Group>
     </div>
