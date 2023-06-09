@@ -1,4 +1,4 @@
-export const data = [
+export const expensesData = [
   {
     id: 1,
     date: "08/05/2023",
